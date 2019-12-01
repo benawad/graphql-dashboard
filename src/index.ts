@@ -10,7 +10,7 @@ import dayjs from "dayjs";
   const knex = Knex({
     client: "sqlite3",
     connection: {
-      filename: "./db/database.sqlite"
+      filename: "./data/database.sqlite"
     }
   });
 
