@@ -1,0 +1,77 @@
+<html>
+<head>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+</head>
+<body>
+<h1>Requests: {{numRequests}}</h1>
+  <table >
+  <tr>
+    <th>Name</th>
+    <th>Average</th>
+    <th>Count</th>
+    <th>Max</th>
+    <th>Min</th>
+  </tr>
+    {% for r in requestsInfo %}
+  <tr>
+    <td><a href="/chart/{{r.name}}/day">{{r.name}}</a></td>
+    <td>{{r.average | round}}</td>
+    <td>{{r.count}}</td>
+    <td>{{r.max}}</td>
+    <td>{{r.min}}</td>
+  </tr>
+    {% endfor %}
+</table>
+<div id="container" style="max-width: 100%;width:500px; height:400px;"></div>
+<script>
+Highcharts.setOptions({
+    time: {
+        timezoneOffset: 6 * 60
+    }
+});
+Highcharts.chart('container', {
+            title: {
+                text: 'Number of Requests Today'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Count'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+
+line: {
+  connectNulls: true }
+            }
+  ,
+            series: [{
+                type: 'line',
+                name: 'per minute',
+                data: [
+{% for d in data %}
+        [{{d[0]}},{{ d[1]}} ],
+      {% endfor %}
+                ]
+            }]
+        });
+</script>
+</body>
+</html>

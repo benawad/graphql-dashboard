@@ -1,0 +1,59 @@
+<html>
+<head>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+</head>
+<body>
+<h1>Requests: {{numRequests}}</h1>
+<div id="container" style="max-width: 100%;width:500px; height:400px;"></div>
+<script>
+Highcharts.setOptions({
+    time: {
+        timezoneOffset: 6 * 60
+    }
+});
+Highcharts.chart('container', {
+            title: {
+                text: "{{name}} Metrics"
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'duration'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+
+line: {
+  connectNulls: true }
+            }
+  ,
+            series: [{
+                type: 'line',
+                name: 'ms',
+                data: [
+{% for d in data %}
+        [{{d[0]}},{{ d[1]}} ],
+      {% endfor %}
+                ]
+            }]
+        });
+</script>
+</body>
+</html>
